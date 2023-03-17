@@ -78,8 +78,8 @@ const View = ({ char }) => {
     const checkDescription = (description == "")
         ? 'There is no description for this character'
         : description;
-    const pruningDescr = (checkDescription.split('').length > 210)
-        ? (checkDescription.split('', 210).join('') + '...')
+    const pruningDescr = (checkDescription.length > 209)
+        ? (checkDescription.slice(0, 209) + '...')
         : checkDescription;
 
     return (
