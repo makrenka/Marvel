@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import { MarvelService } from '../../services/MarvelService';
 import { Spinner } from '../spinner/Spinner';
+import { ErrorMessage } from '../errorMessage/ErrorMessage';
 
 import mjolnir from '../../resources/img/mjolnir.png';
 
 import './randomChar.scss';
-import { ErrorMessage } from '../errorMessage/ErrorMessage';
 
 export class RandomChar extends Component {
 
@@ -63,7 +63,7 @@ export class RandomChar extends Component {
                     <p className="randomchar__title">
                         Or choose another one
                     </p>
-                    <button className="button button__main">
+                    <button className="button button__main" onClick={this.updateChar}>
                         <div className="inner">try it</div>
                     </button>
                     <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
@@ -75,13 +75,19 @@ export class RandomChar extends Component {
 
 const View = ({ char }) => {
     const { name, description, thumbnail, homepage, wiki } = char;
+    const checkDescription = (description == "")
+        ? 'There is no description for this character'
+        : description;
+    const pruningDescr = (checkDescription.split('').length > 210)
+        ? (checkDescription.split('', 210).join('') + '...')
+        : checkDescription;
 
     return (
         <div className="randomchar__block">
             <img src={thumbnail} alt="Random character" className="randomchar__img" />
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
-                <p className="randomchar__descr">{description}</p>
+                <p className="randomchar__descr">{pruningDescr}</p>
                 <div className="randomchar__btns">
                     <a href={homepage} className="button button__main">
                         <div className="inner">homepage</div>
