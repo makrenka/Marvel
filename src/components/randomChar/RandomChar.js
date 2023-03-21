@@ -33,6 +33,7 @@ export class RandomChar extends Component {
 
     updateChar = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+        this.setState({ loading: true })
 
         this.marvelService
             .getCharacter(id)
@@ -81,10 +82,13 @@ const View = ({ char }) => {
     const pruningDescr = (checkDescription.length > 209)
         ? (checkDescription.slice(0, 209) + '...')
         : checkDescription;
+    const imgClass = thumbnail.includes('available')
+        ? '-available'
+        : '';
 
     return (
         <div className="randomchar__block">
-            <img src={thumbnail} alt="Random character" className="randomchar__img" />
+            <img src={thumbnail} alt="Random character" className={"randomchar__img" + imgClass} />
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
                 <p className="randomchar__descr">{pruningDescr}</p>
