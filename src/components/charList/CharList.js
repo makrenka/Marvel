@@ -42,7 +42,8 @@ export class CharList extends Component {
     }
 
     render() {
-        const { loading, error } = this.state;
+        const { loading, error, charList } = this.state;
+        const { selectedId, onSelected } = this.props;
         const spinner = loading ? <Spinner /> : null;
         const errorMessage = error ? <ErrorMessage /> : null;
 
@@ -51,8 +52,13 @@ export class CharList extends Component {
                 {spinner}
                 {errorMessage}
                 <ul className="char__grid">
-                    {this.state.charList.map(({ thumbnail, name, id }) =>
-                        <li className="char__item" key={id}>
+                    {charList.map(({ thumbnail, name, id }) =>
+                        <li
+                            className={"char__item " + (id === selectedId && 'char__item_selected')}
+                            key={id}
+                            data-id={id}
+                            onClick={() => { onSelected(id) }}
+                        >
                             <img
                                 src={thumbnail}
                                 alt={name}
