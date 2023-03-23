@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import classNames from 'classnames';
 
 import { MarvelService } from '../../services/MarvelService';
 import Skeleton from '../skeleton/Skeleton';
@@ -75,14 +76,14 @@ export class CharInfo extends Component {
 const View = ({ char }) => {
     const { name, description, thumbnail, homepage, wiki, comics } = char;
 
-    const imgClass = thumbnail.includes('available')
-        ? 'available'
-        : '';
-
     return (
         <>
             <div className="char__basics">
-                <img src={thumbnail} alt={name} className={imgClass} />
+                <img
+                    src={thumbnail}
+                    alt={name}
+                    className={classNames({ 'available': thumbnail.includes('available') })}
+                />
                 <div>
                     <div className="char__info-name">{name}</div>
                     <div className="char__btns">

@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import classNames from 'classnames';
 
 import { MarvelService } from '../../services/MarvelService';
 import { ErrorMessage } from '../errorMessage/ErrorMessage';
@@ -54,7 +55,7 @@ export class CharList extends Component {
                 <ul className="char__grid">
                     {charList.map(({ thumbnail, name, id }) =>
                         <li
-                            className={"char__item " + (id === selectedId && 'char__item_selected')}
+                            className={classNames({ char__item: true, 'char__item_selected': id === selectedId })}
                             key={id}
                             data-id={id}
                             onClick={() => { onSelected(id) }}
@@ -62,9 +63,7 @@ export class CharList extends Component {
                             <img
                                 src={thumbnail}
                                 alt={name}
-                                className={thumbnail.includes('available')
-                                    ? 'available'
-                                    : ''}
+                                className={classNames({ 'available': thumbnail.includes('available') })}
                             />
                             <div className="char__name">{name}</div>
                         </li>
@@ -73,7 +72,7 @@ export class CharList extends Component {
                 <button className="button button__main button__long">
                     <div className="inner">load more</div>
                 </button>
-            </div>
+            </div >
         )
     }
 }
