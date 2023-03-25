@@ -42,6 +42,8 @@ export class CharInfo extends Component {
             .getCharacter(selectedId)
             .then(this.onCharLoaded)
             .catch(this.onError);
+
+
     };
 
     componentDidMount() {
