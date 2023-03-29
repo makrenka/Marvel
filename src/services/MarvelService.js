@@ -3,7 +3,7 @@ export class MarvelService {
     _apiKey = 'apikey=053a5108c61bc76fdb70a11474fa008d';
 
     getResource = async (url) => {
-        let res = await fetch(url);
+let res = await fetch(url);
         try { return await res.json(); }
         catch (err) {
             new Error(`Could not fetch ${url}, status: ${res.status}`);
