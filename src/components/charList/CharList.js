@@ -63,13 +63,11 @@ export class CharList extends Component {
     render() {
         const { loading, error, charList, offset, newItemLoading, charEnded } = this.state;
         const { selectedId, onSelected } = this.props;
-        const spinner = loading ? <Spinner /> : null;
-        const errorMessage = error ? <ErrorMessage /> : null;
 
         return (
             <div className="char__list">
-                {spinner}
-                {errorMessage}
+                {loading && <Spinner />}
+                {error && <ErrorMessage />}
                 <ul className="char__grid">
                     {charList.map(({ thumbnail, name, id }) =>
                         <li
