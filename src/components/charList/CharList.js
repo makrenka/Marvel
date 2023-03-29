@@ -13,16 +13,33 @@ export class CharList extends Component {
         charList: [],
         loading: true,
         error: false,
+        newItemLoading: false,
+        offset: 210,
+        charEded: false,
     }
 
     marvelService = new MarvelService();
 
-    onCharList = (charList) => {
-        this.setState({
-            charList,
+    onCharListLoaded = (newCharList) => {
+        let ended = false;
+        if (newCharList.length < 9) {
+            ended = true;
+        };
+
+        this.setState(({ offset, charList }) => ({
+            charList: [...charList, ...newCharList],
             loading: false,
-        });
+            newItemLoading: false,
+            offset: offset + 9,
+            charEnded: ended,
+        }));
     };
+
+    onCharListLoading = () => {
+        this.setState({
+            newItemLoading: true,
+        })
+    }
 
     onError = () => {
         this.setState({
@@ -31,10 +48,11 @@ export class CharList extends Component {
         })
     }
 
-    updateCharList = () => {
+    updateCharList = (offset) => {
+        this.onCharListLoading();
         this.marvelService
-            .getAllCharacters()
-            .then(this.onCharList)
+            .getAllCharacters(offset)
+            .then(this.onCharListLoaded)
             .catch(this.onError);
     };
 
@@ -43,15 +61,13 @@ export class CharList extends Component {
     }
 
     render() {
-        const { loading, error, charList } = this.state;
+        const { loading, error, charList, offset, newItemLoading, charEnded } = this.state;
         const { selectedId, onSelected } = this.props;
-        const spinner = loading ? <Spinner /> : null;
-        const errorMessage = error ? <ErrorMessage /> : null;
 
         return (
             <div className="char__list">
-                {spinner}
-                {errorMessage}
+                {loading && <Spinner />}
+                {error && <ErrorMessage />}
                 <ul className="char__grid">
                     {charList.map(({ thumbnail, name, id }) =>
                         <li
@@ -69,7 +85,11 @@ export class CharList extends Component {
                         </li>
                     )}
                 </ul>
-                <button className="button button__main button__long">
+                <button
+                    className={classNames("button button__main button__long", { unactive: charEnded })}
+                    onClick={() => { this.updateCharList(offset) }}
+                    disabled={newItemLoading}
+                >
                     <div className="inner">load more</div>
                 </button>
             </div >
