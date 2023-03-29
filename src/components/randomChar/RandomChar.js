@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import classNames from 'classnames';
+
 import { MarvelService } from '../../services/MarvelService';
 import { Spinner } from '../spinner/Spinner';
 import { ErrorMessage } from '../errorMessage/ErrorMessage';
@@ -33,6 +35,7 @@ export class RandomChar extends Component {
 
     updateChar = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+        this.setState({ loading: true })
 
         this.marvelService
             .getCharacter(id)
@@ -75,7 +78,7 @@ export class RandomChar extends Component {
 
 const View = ({ char }) => {
     const { name, description, thumbnail, homepage, wiki } = char;
-    const checkDescription = (description == "")
+    const checkDescription = (description === "")
         ? 'There is no description for this character'
         : description;
     const pruningDescr = (checkDescription.length > 209)
@@ -84,7 +87,14 @@ const View = ({ char }) => {
 
     return (
         <div className="randomchar__block">
-            <img src={thumbnail} alt="Random character" className="randomchar__img" />
+            <img
+                src={thumbnail}
+                alt="Random character"
+                className={classNames({
+                    randomchar__img: true,
+                    'available': thumbnail.includes('available')
+                })}
+            />
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
                 <p className="randomchar__descr">{pruningDescr}</p>

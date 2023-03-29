@@ -3,23 +3,18 @@ export class MarvelService {
     _apiKey = 'apikey=053a5108c61bc76fdb70a11474fa008d';
 
     getResource = async (url) => {
-        try {
-            let res = await fetch(url);
-
-            if (!res.ok) {
-                throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-            }
-
-            return await res.json();
-        } catch (err) {
-            console.log(err);
+let res = await fetch(url);
+        try { return await res.json(); }
+        catch (err) {
+            new Error(`Could not fetch ${url}, status: ${res.status}`);
         };
     };
 
-    getAllCharacters = () => {
-        return this.getResource(
+    getAllCharacters = async () => {
+        const res = await this.getResource(
             `${this._apiBase}characters?limit=9&offset=210&${this._apiKey}`
         );
+        return res.data.results.map(this._transformCharacter);
     };
 
     getCharacter = async (id) => {
@@ -31,12 +26,14 @@ export class MarvelService {
 
     _transformCharacter = (char) => {
         return {
+            id: char.id,
             name: char.name,
             description: char.description,
             thumbnail: char.thumbnail.path + '.' +
                 char.thumbnail.extension,
             homepage: char.urls[0].url,
             wiki: char.urls[0].url,
+            comics: char.comics.items,
         }
     }
 }
