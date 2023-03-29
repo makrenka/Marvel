@@ -28,15 +28,11 @@ export class App extends Component {
                 <main>
                     <ErrorBoundary>
                         <RandomChar />
-                    </ErrorBoundary>
-                    <div className="char__content">
-                        <ErrorBoundary>
+                        <div className="char__content">
                             <CharList onSelected={this.onSelected} selectedId={selectedId} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
                             <CharInfo selectedId={selectedId} />
-                        </ErrorBoundary>
-                    </div>
+                        </div>
+                    </ErrorBoundary>
                     <img className="bg-decoration" src={decoration} alt="vision" />
                 </main>
             </div>
