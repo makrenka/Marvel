@@ -4,7 +4,7 @@ export class MarvelService {
     _baseOffset = 210;
 
     getResource = async (url) => {
-        let res = await fetch(url);
+let res = await fetch(url);
         try { return await res.json(); }
         catch (err) {
             new Error(`Could not fetch ${url}, status: ${res.status}`);
