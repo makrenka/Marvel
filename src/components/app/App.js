@@ -23,19 +23,19 @@ export class App extends Component {
         const { selectedId } = this.state;
 
         return (
-            <div className="app">
-                <AppHeader />
-                <main>
-                    <ErrorBoundary>
+            <ErrorBoundary>
+                <div className="app">
+                    <AppHeader />
+                    <main>
                         <RandomChar />
                         <div className="char__content">
                             <CharList onSelected={this.onSelected} selectedId={selectedId} />
                             <CharInfo selectedId={selectedId} />
                         </div>
-                    </ErrorBoundary>
-                    <img className="bg-decoration" src={decoration} alt="vision" />
-                </main>
-            </div>
+                        <img className="bg-decoration" src={decoration} alt="vision" />
+                    </main>
+                </div>
+            </ErrorBoundary>
         );
     };
 };
